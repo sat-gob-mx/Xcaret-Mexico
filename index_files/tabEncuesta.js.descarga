@@ -1,0 +1,48 @@
+function tabEncuesta(){
+	try {
+		//Ya que el m�todo focus hacia otra pestana s�lo funciona en Chrome, 
+		//hacemos una simulaci�n de focus cerrando la pesta�a y volviendola
+		//a abrir.
+		var myWindow = window.open("", "encuestaSatisfaccion");
+		myWindow.close();
+		myWindow = window.open('/PTSC/ValidaRFC/encuesta.jsf', 'encuestaSatisfaccion');
+		myWindow.focus();
+		window.blur();
+	}
+	catch(err) {
+		console.log("El error es:");
+		console.log(err.message);
+	}finally {
+		console.log("Termina la apertura de ventana de encuesta de satisfaccion.");
+	}
+}
+
+
+
+function imprimirElemento(elemento){
+	event.preventDefault();
+	var ventana = window.open('', 'PRINT', 'height=400,width=600');
+	  ventana.document.write('<html><head><title>' + '  ' + '</title>');
+	  ventana.document.write('<link rel="stylesheet" href="/PTSC/ValidaRFC/css/auxiliarSegob.css">'); 
+	  ventana.document.write('<link rel="stylesheet" href="/PTSC/ValidaRFC/css/auxiliarSegob2.css">'); 
+	  ventana.document.write('</head><body >');
+	  ventana.document.write(document.querySelector("#spacioLogos").innerHTML);
+	  ventana.document.write('<br/><br/><br/><br/><br/><br/>');
+	  var hoy = new Date();
+	  var fecha = hoy.getDate() + '/' + ( hoy.getMonth() + 1 ) + '/' + hoy.getFullYear();
+	  var hora = hoy.getHours() + ':' + hoy.getMinutes() + ':' + hoy.getSeconds();
+	  var fechaYHora = fecha + ' ' + hora;	  
+	ventana.document.write(document.querySelector("#imprimir").innerHTML);
+	ventana.document.write('<div style="margin-bottom:27px "><span><label  class=\"ui-outputlabel\" style=\"font-weight: bold;\">Fecha de consulta:</label></span><label > '+fechaYHora+'</label></div>');
+	
+	ventana.document.write('<div style=" text-align: right !important"><span><label  class=\"ui-outputlabel\" style=\"font-size: 12px; text-align: right;font-weight: bold;\">La información mostrada corresponde a los datos capturados por el usuario de este servicio, validados en los sistemas del SAT.</label></span></div>');
+
+	ventana.document.write('</body></html>');
+	  ventana.document.close();
+	  ventana.focus();
+	  ventana.onload = function() {
+	    ventana.print();
+	    ventana.close();
+	  };
+	  return true;
+	}
